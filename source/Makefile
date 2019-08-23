@@ -2,15 +2,18 @@ MCU         = atmega328p
 TARGET_ARCH = -mmcu=$(MCU)
 TARGET      = main
 CC          = avr-gcc
+CPLUS       = avr-g++
 CPPFLAGS    = -mmcu=$(MCU)
 CFLAGS      = -Os -g -Wall -I. -DF_CPU=16000000
+CPLUSFLAGS  = -Os -g -Wall -I. -DF_CPU=16000000
 LDFLAGS     = -g -mmcu=$(MCU) -lm -Wl,--gc-sections -Os
 PGMER       = -c arduino -b 115200 -P /dev/ttyACM0
 PGMERISP    = -c avrispv2 -P /dev/ttyACM0
 DUDE        = /usr/bin/avrdude -V -p $(MCU)
 
-C_SRCS      = $(wildcard *.c)
-OBJ_FILES   = $(C_SRCS:.c=.o)
+OBJ_FILES   = \
+	$(patsubst %.c,%.o,$(wildcard *.c)) \
+	$(patsubst %.cpp,%.o,$(wildcard *.cpp))
 
 all:    $(TARGET).hex
 
@@ -19,6 +22,9 @@ clean:
 
 %.o: %.c
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+
+%.o: %.cpp
+	$(CPLUS) -c $(CPPFLAGS) $(CPLUSFLAGS) $< -o $@
 
 $(TARGET).elf: $(OBJ_FILES)
 	$(CC) $(LDFLAGS) -o $@ $(OBJ_FILES)
