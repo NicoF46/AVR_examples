@@ -5,24 +5,23 @@
 #include <util/delay.h>
 #include "ConfiguracionSerial.h"
 #include "ConfiguracionPWM.h"
+#define PINPWM_FRIO 6
+#define PIN_PMOS_FRIO 8
+#define PINPWM_CALOR 5
+#define PIN_PMOS_CALOR 7
 
-#define LED_DDR     DDRB
-#define LED_PIN     PINB
-#define LED         PB5
 
 
 int main(void)
 {
     PWM_configuration_init();
     usart_configuration_init();
-    LED_DDR |= _BV(LED);
+    PORTB|=(1<<PB0);
+    PORTD&=~(1<<PD7);
 
     while (1)
     {
-    //    LED_PIN |= _BV(LED);
-      /*  _delay_ms(1000);*/
-  //      usart_transmit(97);
-        PWM_set(128);
+        PWM_set(180);
     }
 
     return(0);
