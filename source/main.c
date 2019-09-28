@@ -24,12 +24,20 @@ int main(void)
     PWM_configuration_init();
     usart_configuration_init();
     ADC_configuration_init();
-
+    uint8_t msj[]={'P','e','r','k'};
+    while(1){
+      /*TemperaturaTermistor = SensarTemperatura();*/
+      usart_transmit('t');
+      usart_float_transmit(msj);
+      _delay_ms(100);
+  }
+/*
     while(1){
       TemperaturaAmbiente=SensarTemperatura();
       TemperaturaTermistor = SensarTemperatura();
       usart_transmit('t');
       usart_float_transmit(TemperaturaTermistor);
+      _delay_ms(50);
       if (TemperaturaReferencia != 255){
         modo = definir_modo(TemperaturaAmbiente, TemperaturaReferencia);
         TemperaturaTermistor = SensarTemperatura();
@@ -43,7 +51,7 @@ int main(void)
         usart_transmit(ValorPWM);
 }
     }
-
+*/
     return(0);
 }
 
