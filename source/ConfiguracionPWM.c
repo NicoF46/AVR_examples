@@ -18,3 +18,10 @@ void PWM_set(uint8_t pwm){
   OCR0A=pwm;
   OCR0B=0;
   }
+
+void PWM_set_modo(uint8_t ValorPWM,modo_t modo){
+  if(modo==FRIO)
+    OCR0A=ValorPWM;
+  else if(modo==CALOR)
+    OCR0B=ValorPWM;
+}
