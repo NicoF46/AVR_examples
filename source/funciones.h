@@ -4,16 +4,18 @@
 #include "ConfiguracionPWM.h"
 #include "ConfiguracionSerial.h"
 #include "ConfiguracionADC.h"
+#include <stdlib.h>
 
-#define REFERENCIAADC 5 //5v
-#define MAXIMOVALORADC 1023
+
+#define REFERENCIAADC 5.00 //5v
+#define MAXIMOVALORADC 1023.0
 #define R1 9750
 #define R2 9770
 #define CEROKELVIN -273.15
 #define T0TERMISTOR 298.15 //kelvin
 #define BETATERMISTOR 3982.00 //kelvin
-#define R0TERMISTOR 10000 //10k
-#define RESISTENCIADIVISORRESISTIVO 10000
+#define R0TERMISTOR 10000.00 //10k
+#define RESISTENCIADIVISORRESISTIVO 10000.00
 #define SALIDAMAXIMAMODOCALOR 255
 #define SALIDAMINIMAMODOCALOR 0
 #define SALIDAMAXIMAMODOFRIO 0

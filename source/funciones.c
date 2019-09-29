@@ -20,18 +20,22 @@ float SensarTemperatura(){
     static float TemperaturaTermistor=0;
     static float I=0;
     static float VR=0;
-    // Tension sensada
+    /* Tension sensada*/
     ValorLeidoAdc=ReadADC();
-    // calculos divisor
-    VR=(ValorLeidoAdc)*REFERENCIAADC/MAXIMOVALORADC;
+    char cadena[40];
+    /* calculos divisor*/
+    VR=((float)(ValorLeidoAdc))*REFERENCIAADC/MAXIMOVALORADC;
     I=VR/RESISTENCIADIVISORRESISTIVO;
     ResistenciaTermistor=(5-VR)/I;
     // calculos termistor
-    TemperaturaTermistor=(1/T0TERMISTOR);
-    TemperaturaTermistor+=1/(BETATERMISTOR)*log (ResistenciaTermistor/R0TERMISTOR);
-    TemperaturaTermistor=1/TemperaturaTermistor+CEROKELVIN;
-    return TemperaturaTermistor;
+    TemperaturaTermistor=((float)(1)/T0TERMISTOR+((float)(1)/(float)(BETATERMISTOR))*log (ResistenciaTermistor/R0TERMISTOR));
+    TemperaturaTermistor=((float)1)/TemperaturaTermistor+CEROKELVIN;
+/*    dtostrf( TemperaturaTermistor, 6, 8, cadena );
+    usart_Buffer_transmit(cadena,15);
+    usart_transmit('\n');
+  */  return TemperaturaTermistor;
 }
+
 
 modo_t definir_modo(float Tamb, int Tref){
   if (Tamb > Tref){

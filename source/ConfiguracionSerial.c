@@ -17,18 +17,13 @@ void usart_transmit(uint8_t dato){
   	UDR0 = dato;
 }
 
-void usart_float_transmit(void* dato){
+void usart_Buffer_transmit(void* dato,int size){
   int i=0;
-  int NumeroDeBytesDato=sizeof(dato);
-  uint8_t Buffer[NumeroDeBytesDato];
-  memcpy ( Buffer, dato, NumeroDeBytesDato);
-  usart_transmit(Buffer[3]);
-  usart_transmit(Buffer[2]);
-  usart_transmit(Buffer[1]);
-  usart_transmit(Buffer[0]);
-  /*for (i=0;i<NumeroDeBytesDato;i++){
+  uint8_t Buffer[size];
+  memcpy ( Buffer, dato, size);
+  for (i=0;i<size;i++){
     usart_transmit(Buffer[i]);
-  }*/
+  }
 }
 
 

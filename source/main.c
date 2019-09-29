@@ -1,11 +1,10 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdint.h>
 #include <avr/io.h>
 #include <util/delay.h>
 #include <math.h>
 #include "funciones.h"
-
+#include <avr/interrupt.h>
 
 int TemperaturaReferencia = 255;
 
@@ -24,20 +23,14 @@ int main(void)
     PWM_configuration_init();
     usart_configuration_init();
     ADC_configuration_init();
-    uint8_t msj[]={'P','e','r','k'};
-    while(1){
-      /*TemperaturaTermistor = SensarTemperatura();*/
-      usart_transmit('t');
-      usart_float_transmit(msj);
-      _delay_ms(100);
-  }
-/*
+
+
     while(1){
       TemperaturaAmbiente=SensarTemperatura();
       TemperaturaTermistor = SensarTemperatura();
       usart_transmit('t');
-      usart_float_transmit(TemperaturaTermistor);
-      _delay_ms(50);
+      usart_Buffer_transmit(&TemperaturaTermistor,sizeof(TemperaturaTermistor));
+      _delay_ms(10);
       if (TemperaturaReferencia != 255){
         modo = definir_modo(TemperaturaAmbiente, TemperaturaReferencia);
         TemperaturaTermistor = SensarTemperatura();
@@ -51,13 +44,13 @@ int main(void)
         usart_transmit(ValorPWM);
 }
     }
-*/
+
     return(0);
 }
 
 
 
-void ISR(USART_RXC_vect){
+ISR(USART_RXC_vect){
   uint8_t modo = receive();
   switch(modo){
       case('r'):
